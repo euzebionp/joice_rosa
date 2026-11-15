@@ -1,0 +1,20 @@
+{
+  "name": "joice-rosa-cosmeticos",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.5.0",
+  "scripts": {
+    "dev": "pnpm --filter @joice/domain build && pnpm --parallel --filter @joice/api --filter @joice/web dev",
+    "dev:api": "pnpm --filter @joice/domain build && pnpm --filter @joice/api dev",
+    "dev:web": "pnpm --filter @joice/web dev",
+    "build": "pnpm --filter @joice/domain build && pnpm --filter @joice/api build && pnpm --filter @joice/web build",
+    "typecheck": "pnpm --filter @joice/domain build && pnpm -r typecheck",
+    "test": "pnpm -r --if-present test",
+    "db:up": "docker compose up -d postgres redis",
+    "db:down": "docker compose down",
+    "db:migrate": "pnpm --filter @joice/api exec prisma migrate dev",
+    "db:seed": "pnpm --filter @joice/api exec prisma db seed",
+    "db:studio": "pnpm --filter @joice/api exec prisma studio",
+    "worker": "pnpm --filter @joice/domain build && pnpm --filter @joice/api build && pnpm --filter @joice/api worker"
+  }
+}

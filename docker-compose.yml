@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: joice-postgres
+    environment:
+      POSTGRES_USER: joice
+      POSTGRES_PASSWORD: joice
+      POSTGRES_DB: joice_rosa
+    ports:
+      - "5433:5432"
+    volumes:
+      - joice_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U joice -d joice_rosa"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7-alpine
+    container_name: joice-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - joice_redisdata:/data
+
+  adminer:
+    image: adminer:latest
+    container_name: joice-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  joice_pgdata:
+  joice_redisdata:
